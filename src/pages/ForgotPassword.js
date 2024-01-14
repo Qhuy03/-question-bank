@@ -1,10 +1,15 @@
 import React from 'react'
 import { Button, Card, Input, Typography } from "antd";
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 const ForgotPassword = () => {
-  return (
+  const navigate = useNavigate();
+  const handleClickout = () => {
+    navigate('/');
+  }
+  return ( 
     <div className="bg-[#e5eaff] min-h-lvh flex items-center justify-center">
-      <Card className="min-w-[550px]" title={<ArrowLeftOutlined style={{ color: '#3182CE', fontSize: '28px', cursor: 'pointer' }}/>}>
+      <Card className="min-w-[550px]" title={<ArrowLeftOutlined onClick={handleClickout} style={{ color: '#3182CE', fontSize: '28px', cursor: 'pointer' }}/>}>
         <Typography.Title level={1} className="text-center">
           FORGOT PASSWORD
         </Typography.Title>

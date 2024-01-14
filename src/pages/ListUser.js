@@ -1,9 +1,42 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Main from '../components/Main'
 import { Button, Form, Input, Modal, Row, Col,Space, Spin, Table, Tag, Typography } from 'antd'
 import { DeleteFilled, EditFilled, LoadingOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+
 
 const ListUser = () => {
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if(localStorage.getItem('metadata') == null){
+      navigate('/signin')
+      console.log(localStorage.getItem('metadata'));
+    }
+  }, [])
+
+  useEffect(() => {
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'x-user-id': JSON.parse(localStorage.getItem('metadata')).userData._id
+    };
+    console.log(JSON.parse(localStorage.getItem('metadata')).userData._id);
+    // Gửi yêu cầu GET khi component được render
+    axios.get('http://localhost:8000/api/v1/admin/user', {
+      headers
+    })
+      .then(response => {
+        // Xử lý dữ liệu nhận được từ response
+        console.log(response);
+      })
+      .catch(error => {
+        // Xử lý các lỗi nếu có
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   const columns = [
     {
       title: 'Id',
