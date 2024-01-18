@@ -43,32 +43,29 @@ const SideNav = () => {
           path: 'logout'
         },
       ]
-
-      const handleLogin = async () => {
+      
+      
+      const handleLogout = async () => {
         try {
-          const userData = {
-            user_data: {
-              email: email,
-              password: password
-            }
-          };
+          
           console.log(JSON.parse(localStorage.getItem('metadata')));
-          const response = await axios.post('http://localhost:8000/api/v1/access/logout', userData, {
+          const response = await axios.delete('http://localhost:8000/api/v1/access/logout', {
             headers: {
-              'authorization': 'Bearer ' + JSON.parse(localStorage.getItem('metadata')).authToken.refreshToken
+              'Content-Type': 'application/json',
+              'authorization': 'Bearer ' + JSON.parse(localStorage.getItem('metadata')).authToken.accessToken
             }
           });
     
           // Nếu đăng nhập thành công, xử lý token hoặc thông tin cần thiết ở đây
           // const token = response.data.token;
-          console.log('Login successful! Token:', response);
+          console.log('Logout successful! Token:');
           localStorage.removeItem("metadata");
           // Điều hướng hoặc lưu token vào state của ứng dụng (tùy vào yêu cầu của bạn)
-          navigate('/');
+          navigate('/signin');
         } catch (error) {
           // Xử lý lỗi nếu đăng nhập thất bại
           // setError('Invalid username or password');
-          console.error('Error during login:', error);
+          console.error('Error during logout:', error);
         }
       };
 
@@ -129,14 +126,14 @@ const SideNav = () => {
                     </Link>
                 </Menu.Item>
 
-                <Menu.Item  className={page === 'logout' ? 'ant-menu-item-active ant-menu-item-selected' : ""}>
+                <Menu.Item onClick={handleLogout}  className={page === 'logout' ? 'ant-menu-item-active ant-menu-item-selected' : ""}>
                     <div >
                         <span
                         className="anticon anticon-user ant-menu-item-icon"
                         role='img'
                         aria-label='user'
                         >
-                            <LogoutOutlined onClick={handleLogin}  />
+                            <LogoutOutlined   />
                         </span>
                         <span className="ant-menu-title-content">Log out</span>
                     </div>
